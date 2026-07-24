@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kloosterman-twisted"
+version = "0.1.0"
+description = "Untwisted and modular-symbol twisted Kloosterman sums for weight-2 newforms."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Fredrik Stromberg", email = "fredrik.stromberg@wincon.co.uk" },
+]
+keywords = ["kloosterman", "modular-symbols", "number-theory", "elliptic-curves"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+dependencies = [
+    "numpy>=1.23",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7",
+    "pytest-cov",
+    "ruff",
+]
+# Optional: use PARI (via cypari2) for the Fourier coefficients a_n --
+# considerably faster than the built-in point-counting fallback.
+# cypari2 is a small standalone PyPI package with no Sage dependency.
+pari = [
+    "cypari2>=2.1",
+]
+# Alias: if passagemath (or full Sage) is already installed, EllipticCurve
+# is used directly.  No extra needs to be declared for that path -- the
+# runtime detection in coefficients.py will pick it up automatically.
+
+[project.urls]
+Homepage = "https://github.com/"
+Source = "https://github.com/"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["kloosterman_twisted*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "src/kloosterman_twisted"]
+addopts = "-ra --doctest-modules"
+doctest_optionflags = ["NORMALIZE_WHITESPACE", "ELLIPSIS"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501"]
